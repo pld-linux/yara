@@ -5,7 +5,7 @@
 Summary:	A malware identification and classification tool
 Name:		yara
 Version:	1.4
-Release:	1
+Release:	2
 License:	GPL v3
 Group:		Libraries
 Source0:	http://yara-project.googlecode.com/files/%{name}-%{version}.tar.gz
@@ -26,6 +26,7 @@ Summary:	Header files for yara library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki yara
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	pcre-devel
 
 %description devel
 Header files for yara library.
