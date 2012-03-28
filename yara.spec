@@ -5,7 +5,7 @@
 Summary:	A malware identification and classification tool
 Name:		yara
 Version:	1.4
-Release:	2
+Release:	3
 License:	GPL v3
 Group:		Libraries
 Source0:	http://yara-project.googlecode.com/files/%{name}-%{version}.tar.gz
