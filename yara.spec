@@ -1,11 +1,11 @@
 # TODO
 # - http://yara.readthedocs.org/en/latest/gettingstarted.html#compiling-and-installing-yara
-#   --with-crypto
 #   --enable-cuckoo --enable-magic
 
 # Conditional build:
 %bcond_without	static_libs	# don't build static libraries
 %bcond_without	python2 # CPython 2.x module
+%bcond_without	crypto		# build without tests
 
 Summary:	The pattern matching swiss knife for malware researchers (and everyone else)
 Name:		yara
@@ -20,6 +20,7 @@ URL:		http://plusvic.github.io/yara/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
+%{?with_crypto:BuildRequires:	openssl-devel}
 BuildRequires:	pcre-devel
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.219
@@ -82,6 +83,7 @@ features from your own Python scripts.
 %{__autoheader}
 %{__automake}
 %configure \
+	%{__with_without crypto} \
 	%{!?with_static_libs:--disable-static}
 %{__make}
 
