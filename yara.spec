@@ -2,24 +2,28 @@
 # Conditional build:
 %bcond_without	static_libs	# don't build static libraries
 
-Summary:	A malware identification and classification tool
+Summary:	The pattern matching swiss knife for malware researchers (and everyone else)
 Name:		yara
-Version:	1.7
+Version:	3.4.0
 Release:	1
-License:	GPL v3
+License:	Apache v2.0
 Group:		Libraries
-Source0:	http://yara-project.googlecode.com/files/%{name}-%{version}.tar.gz
-# Source0-md5:	fa54b3fd80c0c2e7ed4d62481ad225f0
-URL:		http://code.google.com/p/yara-project/
+Source0:	https://github.com/plusvic/yara/archive/v%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	b3f9d4e00c1da4d37af05b1f4488255f
+URL:		http://plusvic.github.io/yara/
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool
 BuildRequires:	pcre-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-YARA is a tool aimed at helping malware researchers to identify and
-classify malware samples. With YARA you can create descriptions of
-malware families based on textual or binary patterns contained on
-samples of those families. Each description consists of a set of
-strings and a Boolean expression which determines its logic.
+YARA is a tool aimed at (but not limited to) helping malware
+researchers to identify and classify malware samples. With YARA you
+can create descriptions of malware families (or whatever you want to
+describe) based on textual or binary patterns. Each description, a.k.a
+rule, consists of a set of strings and a boolean expression which
+determine its logic.
 
 %package devel
 Summary:	Header files for yara library
@@ -50,6 +54,11 @@ Statyczna biblioteka yara.
 %setup -q
 
 %build
+%{__aclocal} -I m4
+%{__libtoolize}
+%{__autoconf}
+%{__autoheader}
+%{__automake}
 %configure \
 	%{!?with_static_libs:--disable-static}
 %{__make}
@@ -70,16 +79,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README
+%doc README.md AUTHORS CONTRIBUTORS
 %attr(755,root,root) %{_bindir}/yara
+%attr(755,root,root) %{_bindir}/yarac
 %attr(755,root,root) %{_libdir}/libyara.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libyara.so.0
+%attr(755,root,root) %ghost %{_libdir}/libyara.so.3
 %{_mandir}/man1/yara.1*
+%{_mandir}/man1/yarac.1*
 
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/yara.h
+%{_includedir}/yara
 %{_libdir}/libyara.so
+%{_pkgconfigdir}/yara.pc
 
 %if %{with static_libs}
 %files static
