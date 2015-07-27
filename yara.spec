@@ -14,6 +14,7 @@ License:	Apache v2.0
 Group:		Libraries
 Source0:	https://github.com/plusvic/yara/archive/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	b3f9d4e00c1da4d37af05b1f4488255f
+Patch0:		cflags.patch
 URL:		http://plusvic.github.io/yara/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -57,6 +58,7 @@ Statyczna biblioteka yara.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %{__aclocal} -I m4
