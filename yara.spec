@@ -5,11 +5,12 @@
 
 # Conditional build:
 %bcond_without	static_libs	# don't build static libraries
+%bcond_without	python2 # CPython 2.x module
 
 Summary:	The pattern matching swiss knife for malware researchers (and everyone else)
 Name:		yara
 Version:	3.4.0
-Release:	1
+Release:	2
 License:	Apache v2.0
 Group:		Libraries
 Source0:	https://github.com/plusvic/yara/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -21,6 +22,11 @@ BuildRequires:	automake
 BuildRequires:	libtool
 BuildRequires:	pcre-devel
 BuildRequires:	pkgconfig
+BuildRequires:	rpmbuild(macros) >= 1.219
+%if %{with python2}
+BuildRequires:	python-devel
+BuildRequires:	rpm-pythonprov
+%endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -56,6 +62,15 @@ Static yara library.
 %description static -l pl.UTF-8
 Statyczna biblioteka yara.
 
+%package -n python-%{name}
+Summary:	Python bindings to yara library
+Group:		Development/Languages/Python
+Requires:	python-modules
+
+%description -n python-%{name}
+This is a Python extension that gives you access to YARA's powerful
+features from your own Python scripts.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -70,13 +85,30 @@ Statyczna biblioteka yara.
 	%{!?with_static_libs:--disable-static}
 %{__make}
 
+%if %{with python}
+cd yara-python
+export CFLAGS="%{rpmcflags}"
+%{__python} setup.py build
+%endif
+
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/libyara.la
+# obsoleted by pkg-config
+rm $RPM_BUILD_ROOT%{_libdir}/libyara.la
+
+%if %{with python2}
+cd yara-python
+%{__python} setup.py install \
+	--optimize=2 \
+	--root=$RPM_BUILD_ROOT
+
+%py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
+%py_comp $RPM_BUILD_ROOT%{py_sitedir}
+%py_postclean
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -105,4 +137,12 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libyara.a
+%endif
+
+%if %{with python2}
+%files -n python-%{name}
+%defattr(644,root,root,755)
+%doc yara-python/README
+%attr(755,root,root) %{py_sitedir}/yara.so
+%{py_sitedir}/yara_python-*.egg-info
 %endif
