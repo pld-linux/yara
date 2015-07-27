@@ -1,4 +1,8 @@
-#
+# TODO
+# - http://yara.readthedocs.org/en/latest/gettingstarted.html#compiling-and-installing-yara
+#   --with-crypto
+#   --enable-cuckoo --enable-magic
+
 # Conditional build:
 %bcond_without	static_libs	# don't build static libraries
 
