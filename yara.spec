@@ -10,7 +10,7 @@
 Summary:	The pattern matching swiss knife for malware researchers (and everyone else)
 Name:		yara
 Version:	3.4.0
-Release:	2
+Release:	3
 License:	Apache v2.0
 Group:		Libraries
 Source0:	https://github.com/plusvic/yara/archive/v%{version}/%{name}-%{version}.tar.gz
