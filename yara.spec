@@ -4,13 +4,13 @@
 
 # Conditional build:
 %bcond_without	static_libs	# don't build static libraries
-%bcond_without	python2 # CPython 2.x module
+%bcond_without	python2		# CPython 2.x module
 %bcond_without	crypto		# build without tests
 
 Summary:	The pattern matching swiss knife for malware researchers (and everyone else)
 Name:		yara
 Version:	3.4.0
-Release:	3
+Release:	4
 License:	Apache v2.0
 Group:		Libraries
 Source0:	https://github.com/plusvic/yara/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -87,10 +87,9 @@ features from your own Python scripts.
 	%{!?with_static_libs:--disable-static}
 %{__make}
 
-%if %{with python}
+%if %{with python2}
 cd yara-python
-export CFLAGS="%{rpmcflags}"
-%{__python} setup.py build
+%py_build
 %endif
 
 %install
@@ -99,13 +98,11 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 # obsoleted by pkg-config
-rm $RPM_BUILD_ROOT%{_libdir}/libyara.la
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libyara.la
 
 %if %{with python2}
 cd yara-python
-%{__python} setup.py install \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
+%py_install
 
 %py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
 %py_comp $RPM_BUILD_ROOT%{py_sitedir}
