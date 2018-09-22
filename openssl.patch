@@ -1,0 +1,11 @@
+--- yara-3.4.0/libyara/modules/pe.c.org	2018-09-22 16:41:31.655766625 +0200
++++ yara-3.4.0/libyara/modules/pe.c	2018-09-22 16:50:38.629314185 +0200
+@@ -1155,7 +1155,7 @@ void pe_parse_certificates(
+           pe->object,
+           "signatures[%i].version", counter);
+ 
+-      const char* sig_alg = OBJ_nid2ln(OBJ_obj2nid(cert->sig_alg->algorithm));
++      const char* sig_alg = OBJ_nid2ln(X509_get_signature_nid(cert));
+ 
+       set_string(sig_alg, pe->object, "signatures[%i].algorithm", counter);
+ 
