@@ -13,11 +13,11 @@ Version:	3.4.0
 Release:	7
 License:	Apache v2.0
 Group:		Libraries
-Source0:	https://github.com/plusvic/yara/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:	https://github.com/VirusTotal/yara/archive/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	b3f9d4e00c1da4d37af05b1f4488255f
 Patch0:		cflags.patch
 Patch1:		openssl.patch
-URL:		http://plusvic.github.io/yara/
+URL:		https://virustotal.github.io/yara/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
