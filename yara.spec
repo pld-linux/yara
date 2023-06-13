@@ -27,6 +27,7 @@ BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.219
 %if %{with python2}
 BuildRequires:	python-devel
+BuildRequires:	python-modules
 BuildRequires:	rpm-pythonprov
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
