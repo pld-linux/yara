@@ -1,8 +1,15 @@
---- yara-3.4.0/Makefile.am~	2015-06-18 16:33:39.000000000 +0300
-+++ yara-3.4.0/Makefile.am	2015-07-27 08:23:31.883410486 +0300
-@@ -1,4 +1,4 @@
--AM_CFLAGS=-O3 -std=gnu99 -Wall -I$(srcdir)/libyara/include
-+AM_CFLAGS= -std=gnu99 -Wall -I$(srcdir)/libyara/include
+--- yara-4.3.2/Makefile.am.orig	2023-06-13 12:11:39.686650055 +0200
++++ yara-4.3.2/Makefile.am	2023-06-13 12:13:32.926221667 +0200
+@@ -43,12 +43,6 @@
+ AM_CFLAGS+=-g -fno-omit-frame-pointer
+ endif
  
- # Build the library in the hand subdirectory first.
- SUBDIRS = libyara
+-if OPTIMIZATION
+-AM_CFLAGS+=-O3
+-else
+-AM_CFLAGS+=-O0
+-endif
+-
+ endif
+ 
+ if ADDRESS_SANITIZER
