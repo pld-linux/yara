@@ -8,12 +8,13 @@
 Summary:	The pattern matching swiss knife for malware researchers (and everyone else)
 Summary(pl.UTF-8):	Narzędzie do dopasowywania wzorców dla wyszukujących złośliwe oprogramowanie (i nie tylko)
 Name:		yara
-Version:	4.3.2
-Release:	2
+Version:	4.5.1
+Release:	1
 License:	Apache v2.0
 Group:		Libraries
+#Source0Download: https://github.com/VirusTotal/yara/releases
 Source0:	https://github.com/VirusTotal/yara/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	cace2a274542e9c611c90b92b406a188
+# Source0-md5:	775cdefb63df9c96e79cb3a30489146b
 Patch0:		cflags.patch
 URL:		https://virustotal.github.io/yara/
 BuildRequires:	autoconf >= 2.50
